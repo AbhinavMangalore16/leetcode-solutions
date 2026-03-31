@@ -1,0 +1,31 @@
+# Last updated: 3/31/2026, 9:30:52 PM
+class Solution:
+    def replaceValueInTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        pq = deque()
+        pq.append((root.val, root))
+        
+        while pq:
+            n = len(pq)
+            
+			# calculate levelSum at each level
+            levelSum = 0
+            for localSum, node in pq:
+                levelSum += node.val
+                
+            for i in range(n):
+                localSum, node = pq.popleft()
+                
+				# calculate childSum
+                childSum = 0
+                if node.left: childSum += node.left.val
+                if node.right: childSum += node.right.val
+                
+				# queue children with childSum
+                if node.left: pq.append((childSum, node.left))
+                if node.right: pq.append((childSum, node.right))
+                   
+				# new node value is levelSum - localSum
+                node.val = levelSum - localSum
+                 
+        return root
+
