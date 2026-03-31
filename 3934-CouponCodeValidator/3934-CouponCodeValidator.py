@@ -1,0 +1,23 @@
+# Last updated: 3/31/2026, 9:28:28 PM
+class Solution:
+    def validateCoupons(self, code: List[str], businessLine: List[str], isActive: List[bool]) -> List[str]:
+        priority = {
+            "electronics": 0,
+            "grocery": 1,
+            "pharmacy": 2,
+            "restaurant": 3
+        }
+        def is_valid(s):
+            return len(s) > 0 and all(c.isalnum() or c == '_' for c in s)
+
+        valid = []
+
+        for i in range(len(code)):
+            if (
+                isActive[i] and
+                businessLine[i] in priority and
+                is_valid(code[i])
+            ):
+                valid.append((priority[businessLine[i]], code[i]))
+        valid.sort()
+        return [c for _, c in valid]
