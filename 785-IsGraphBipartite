@@ -1,0 +1,19 @@
+# Last updated: 5/14/2026, 10:24:45 PM
+1class Solution:
+2    def isBipartite(self, graph: List[List[int]]) -> bool:
+3        v = len(graph)
+4        color = [-1]*v
+5        for i in range(v):
+6            if color[i]!=-1:
+7                continue
+8            queue = deque([i])
+9            color[i]=0
+10            while queue:
+11                n = queue.popleft()
+12                for b in graph[n]:
+13                    if color[b] == -1:
+14                        color[b] = 1-color[n]
+15                        queue.append(b)
+16                    elif color[b]==color[n]:
+17                        return False
+18        return True
